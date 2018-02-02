@@ -1,0 +1,15 @@
+<?php
+/**
+ * Implements hook_field_schema().
+ */
+function country_phone_field_schema($field) {
+
+  $schema = array();
+  $schema['columns']['cp_value'] = array(
+    'type' => 'varchar',
+    'length' => 125,
+    'not null' => FALSE
+  );
+  return $schema;
+
+}

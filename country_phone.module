@@ -1,0 +1,162 @@
+<?php
+
+/**
+ * Implements hook_field_info().
+ */
+function country_phone_field_info() {
+  return array(
+    'country_phone' => array(
+      'label' => 'Countrys Phone',
+      'description' => t('This field stores and renders country_phone .'),
+      'default_widget' => 'country_phone_country_phone',
+      'default_formatter' => 'country_phone_default',
+      'property_type' => 'text',
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_validate().
+ */
+function country_phone_field_validate($obj_type, $object, $field, $instance, $langcode, $items, &$errors) {
+}
+
+/**
+ * Implements hook_field_widget_error().
+ */
+function country_phone_field_widget_error($element, $error, $form, &$form_state) {
+}
+
+/**
+ * Implements hook_content_is_empty().
+ */
+function country_phone_field_is_empty($item, $field) {
+  if (empty($item['cp_value'])) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ *
+ */
+function country_phone_field_formatter_info() {
+  $formats = array(
+    'country_phone_default' => array(
+      'label' => t('country_phone'),
+      'description' => t('Display the country_phone .'),
+      'field types' => array('country_phone'),
+    ),
+  );
+  return $formats;
+}
+
+
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function country_phone_field_formatter_view($object_type, $object, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  switch ($display['type']) {
+    case 'country_phone_default':
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array('#markup' => $item['cp_value']);
+      }
+      break;
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function country_phone_field_widget_info() {
+  return array(
+    'country_phone_country_phone' => array(
+      'label' => t('List code phone'),
+      //'field types' => array('country_phone'),
+      'field types' => array(
+        'text',
+      ),
+      'settings' => array(
+        'size' => 60,
+      ),
+      'behaviors' => array(
+        'multiple values' => FIELD_BEHAVIOR_DEFAULT,
+        'default value' => FIELD_BEHAVIOR_DEFAULT,
+      ),
+
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function country_phone_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+//  $base = $element;
+
+//  $widget = $instance['widget'];
+//  $settings = $widget['settings'];
+//  $element['cp_value'] = array(
+//      '#type' => 'textfield',
+//      '#attributes' => array('id' => array('phone')),
+//      '#attached' => array(
+//         'css' => array(drupal_get_path('module', 'country_phone') . '/build/css/intlTelInput.css' , drupal_get_path('module', 'country_phone') . '/build/css/demo2.css'),
+//         'js' =>array( drupal_get_path('module', 'country_phone') . '/build/js/intlTelInput.js' => array('type' => 'file', 'scope' => 'footer', 'weight' => 101) ,  drupal_get_path('module', 'country_phone') . '/build/js/jsphone.js' => array('type' => 'file', 'scope' => 'footer', 'weight' => 102) )
+//         ),
+    
+//      '#default_value' => isset($items[$delta]['cp_value']) ? $items[$delta]['cp_value'] : NULL,
+//  );
+
+// //   return $element;
+
+  $main_widget = array();
+  switch ($instance['widget']['type']) {
+  case 'country_phone_country_phone':
+    $main_widget = $element + array(
+        '#type' => 'textfield',
+        '#default_value' => isset($items[$delta]['cp_value']) ? $items[$delta]['cp_value'] : NULL,
+        '#attributes' => array('id' => array('phone')),
+        '#attached' => array(
+            'css' => array(drupal_get_path('module', 'country_phone') . '/build/css/intlTelInput.css' , drupal_get_path('module', 'country_phone') . '/build/css/demo2.css'),
+            'js' =>array( drupal_get_path('module', 'country_phone') . '/build/js/intlTelInput.js' => array('type' => 'file', 'scope' => 'footer', 'weight' => 101) ,  drupal_get_path('module', 'country_phone') . '/build/js/jsphone.js' => array('type' => 'file', 'scope' => 'footer', 'weight' => 102) )
+        ),
+      );
+    break;
+  }
+  $element['cp_value'] = $main_widget;
+ 
+
+
+
+  
+//   $avalue = isset($items[$delta]['cp_value']) ? $items[$delta]['cp_value'] : '';
+
+// 	$element += array(
+// 	    '#delta' => $delta,
+// 	  );
+//   $element['cp_value'] = array(
+//   );
+//   switch ($instance['widget']['type'])
+//   {
+//     case 'country_phone_country_phone':
+//           $element['cp_value'] = array(
+//             '#type' => 'textfield',
+//             '#default_value' => $avalue,
+//      '#attributes' => array('id' => array('phone')),
+//      '#attached' => array(
+//         'css' => array(drupal_get_path('module', 'country_phone') . '/build/css/intlTelInput.css' , drupal_get_path('module', 'country_phone') . '/build/css/demo2.css'),
+//         'js' =>array( drupal_get_path('module', 'country_phone') . '/build/js/intlTelInput.js' => array('type' => 'file', 'scope' => 'footer', 'weight' => 101) ,  drupal_get_path('module', 'country_phone') . '/build/js/jsphone.js' => array('type' => 'file', 'scope' => 'footer', 'weight' => 102) )
+//         ),
+//             );
+//  			break;
+//     default:
+//       break;
+//   }
+  return $element;
+  
+}
+
